@@ -1,13 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import GetCompetitor from './components/Competitors/GetCompetitor.js';
 
 function App() {
   return(
-    <div className="App">
-      <header className="App-header">
-        <h1>Competition Manager</h1>
-      </header>
-    </div>
+    <GetCompetitor/>
   )
 }
 
