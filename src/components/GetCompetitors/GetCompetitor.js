@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, use } from "react";
-import { Modal } from "@mui/material";
+import { Modal, unstable_createMuiStrictModeTheme } from "@mui/material";
 import style from "./GetCompetitor.module.css";
 import { Box } from "@mui/system";
 import TextField from '@mui/material/TextField';
@@ -8,27 +8,47 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import { set } from "react-hook-form";
+import ListPlacements from '../ListPlacements/ListPlacements.js'
 
 function GetCompetitor(){
     
-    let [stateCompetitors, setStateCompetitors] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [stateId, setStateId] = useState("");
-    const [stateName, setStateName] = useState("");
-    const [stateClub, setStateClub] = useState("");
-    const [stateBirthDate, setStateBirthDate] = useState("");
-    let [stateCompetitor, setStateCompetitor] = useState(null);
+    let [stateCompetitors, setStateCompetitors] = useState([]);
+    let [open, setOpen] = useState(false);
+    let [stateId, setStateId] = useState("");
+    let [stateName, setStateName] = useState("");
+    let [stateClub, setStateClub] = useState("");
+    let [stateBirthDate, setStateBirthDate] = useState("");
+    let [stateCompetitor, setStateCompetitor] = useState(
+        {
+            "name": "",
+            "club": "",
+            "birthDate": ""
+        }
+    );
+    let [statePlacement, setStatePlacement] = useState(
+        [{
+            "competitorName": "",
+            "competitionName": "",
+            "competitionLocation": "",
+            "competitionDate": "",
+            "competitorPlacement": ""
+          }]
+    );
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
     const fetchAllCompetitor = () =>{
         axios.get("/api/competitor/")
         .then(response => {
+            stateCompetitors = response
             setStateCompetitors(response.data);
         })
         
     }
+
     fetchAllCompetitor();
+
     const filterCompetitorByName = () =>{
         stateCompetitors.map((competitor) => {
             if(competitor.name === stateName){
@@ -37,17 +57,20 @@ function GetCompetitor(){
             }
         })
     }
+
     const getCompetitorPlacementsById = () =>{
         axios.get(`/api/placements/${stateCompetitor.id}`).then(response => {
-            console.log(response.data);
+            statePlacement = response.data;
+            setStatePlacement(statePlacement);
         })
     }
 
   
-
-
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <h1>Get your placements here</h1>
+            <ListPlacements placements={statePlacement}/>
+            <br/>
             <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>Get Competitor</Button>
             <Modal open={open} onClose={handleClose}>
                 <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'white', boxShadow: 24, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 5}}>

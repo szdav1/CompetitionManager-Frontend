@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import GetCompetitor from './components/Competitors/GetCompetitor.js';
+import GetCompetitor from './components/GetCompetitors/GetCompetitor.js';
 
 function App() {
   return(
