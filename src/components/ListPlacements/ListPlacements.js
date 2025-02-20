@@ -13,7 +13,6 @@ function ListPlacements({placements}) {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Competition Placements</TableCell>
                                 <TableCell align="right">Competitor</TableCell>
                                 <TableCell align="right">Competition</TableCell>
                                 <TableCell align="right">Location</TableCell>
