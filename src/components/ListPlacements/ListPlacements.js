@@ -9,34 +9,39 @@ import Paper from '@mui/material/Paper';
 function ListPlacements({placements}) {
     return (
         <div>
-            <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="right">Competitor</TableCell>
-                                <TableCell align="right">Competition</TableCell>
-                                <TableCell align="right">Location</TableCell>
-                                <TableCell align="right">Date</TableCell>
-                                <TableCell align="right">Placement</TableCell>
+            <TableContainer sx={{borderRadius: 5, bgcolor: "whitesmoke", boxShadow: 5}}>
+                <Table sx={{ minWidth: "100%", bgcolor: "whitesmoke", borderRadius: 5}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow sx={{borderRadius: 5}}>
+                            <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Competitor</TableCell>
+                            <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Competition</TableCell>
+                            <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Location</TableCell>
+                            <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Date</TableCell>
+                            <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Placement</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {placements.map((row, index) => (
+                            <TableRow
+                                key={row.id}
+                                sx={{
+                                    "th, td": {border: 0.5, borderColor: "#282c34"},
+                                    bgcolor: index % 2 === 0 ? "lightgray" : "whitesmoke",
+                                    
+                        
+                                }}
+                            >
+                                <TableCell align="center">{row.competitorName}</TableCell>
+                                <TableCell align="center">{row.competitionName}</TableCell>
+                                <TableCell align="center">{row.competitionLocation}</TableCell>
+                                <TableCell align="center">{row.competitionDate}</TableCell>
+                                <TableCell align="center">{row.competitorPlacement}.</TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {placements.map((row) => (
-                                <TableRow
-                                    // key={row.competitorName}
-                                    // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                    <TableCell align="right">{row.competitorName}</TableCell>
-                                    <TableCell align="right">{row.competitionName}</TableCell>
-                                    <TableCell align="right">{row.competitionLocation}</TableCell>
-                                    <TableCell align="right">{row.competitionDate}</TableCell>
-                                    <TableCell align="right">{row.competitorPlacement}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     );
 }
 
