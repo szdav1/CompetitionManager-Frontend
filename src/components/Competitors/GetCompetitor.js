@@ -16,8 +16,8 @@ function GetCompetitor(){
     const [open, setOpen] = useState(false);
     // const [stateId, setStateId] = useState("");
     const [stateName, setStateName] = useState("");
-    // const [stateClub, setStateClub] = useState("");
-    // const [stateBirthDate, setStateBirthDate] = useState("");
+    const [stateClub, setStateClub] = useState("");
+    const [stateBirthDate, setStateBirthDate] = useState("");
     let [stateCompetitor, setStateCompetitor] = useState(null);
     let [statePlacements, setStatePlacements] = useState([]);
     const handleOpen = () => setOpen(true);
@@ -33,7 +33,7 @@ function GetCompetitor(){
     }, [])
     const filterCompetitorByName = () =>{
         stateCompetitors.map((competitor) => {
-            if(competitor.name === stateName){
+            if(competitor.name === stateName  && competitor.club === stateClub && competitor.birthDate === stateBirthDate){
                 stateCompetitor = competitor;
                 setStateCompetitor(stateCompetitor);
             }
@@ -63,6 +63,8 @@ function GetCompetitor(){
                 <Modal open={open} onClose={handleClose}>
                     <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'white', boxShadow: 24, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 5}}>
                         <TextField id="outlined-basic" label="Name" variant="outlined" value={stateName} onChange={(e) => setStateName(e.target.value)} />
+                        <TextField id="outlined-basic" label="Club" variant="outlined" value={stateClub} onChange={(e) => setStateClub(e.target.value)} />
+                        <TextField id="outlined-basic" label="Birth Date" variant="outlined" value={stateBirthDate} onChange={(e) => setStateBirthDate(e.target.value)} />
                         <br />
                         <Button variant="contained" startIcon={<SearchIcon />}  onClick={ async () => {
                             await clickQuery();

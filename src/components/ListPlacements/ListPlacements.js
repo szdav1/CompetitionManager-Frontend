@@ -14,6 +14,7 @@ function ListPlacements({placements}) {
                     <TableHead>
                         <TableRow sx={{borderRadius: 5}}>
                             <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Competitor</TableCell>
+                            <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Club</TableCell>
                             <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Competition</TableCell>
                             <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Location</TableCell>
                             <TableCell align="center" sx={{color: "black", border : 0.5, borderColor: "#282c34", fontWeight: "bold"}}>Date</TableCell>
@@ -27,11 +28,11 @@ function ListPlacements({placements}) {
                                 sx={{
                                     "th, td": {border: 0.5, borderColor: "#282c34"},
                                     bgcolor: index % 2 === 0 ? "lightgray" : "whitesmoke",
-                                    
-                        
+                                    "&:hover": {backgroundColor: "#1976D2", color: "white", transition: "all 0.5s ease-in-out"}
                                 }}
                             >
                                 <TableCell align="center">{row.competitorName}</TableCell>
+                                <TableCell align="center">{row.competitorClub}</TableCell>
                                 <TableCell align="center">{row.competitionName}</TableCell>
                                 <TableCell align="center">{row.competitionLocation}</TableCell>
                                 <TableCell align="center">{row.competitionDate}</TableCell>
