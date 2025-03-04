@@ -1,0 +1,9 @@
+@media (max-width: 600px) {
+  .MuiTableCell-root {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  .MuiTableContainer-root {
+    overflow-x: auto;
+  }
+}

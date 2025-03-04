@@ -5,6 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import PropTypes from "prop-types";
 function ListPlacements({ placements }) {
   return (
     <div>
@@ -115,3 +116,16 @@ function ListPlacements({ placements }) {
   );
 }
 export default ListPlacements;
+ListPlacements.propTypes = {
+  placements: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      competitorName: PropTypes.string.isRequired,
+      competitorClub: PropTypes.string.isRequired,
+      competitionName: PropTypes.string.isRequired,
+      competitionLocation: PropTypes.string.isRequired,
+      competitionDate: PropTypes.string.isRequired,
+      competitorPlacement: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};
