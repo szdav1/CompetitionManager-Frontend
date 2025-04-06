@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect, use } from "react";
+import React,  { useState, useEffect}  from "react";
 import { Modal } from "@mui/material";
 import style from "./GetCompetitor.module.css";
 import { Box } from "@mui/system";
@@ -27,7 +27,6 @@ function GetCompetitor(){
     const fetchAllCompetitor = async () =>{
         let response = await axios.get("/api/competitor/").catch((error) => {alert("Kérem indítsa el a szervert!")});
             setStateCompetitors(response.data);
-       
         
     }
     useEffect(() => {
