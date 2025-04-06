@@ -1,8 +1,12 @@
 body{
-    background-color: lightblue;
+    background-image: linear-gradient(to bottom, #ff7e5f, #feb47b);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    color: white
 }

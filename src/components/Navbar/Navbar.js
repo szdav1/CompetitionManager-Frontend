@@ -4,12 +4,15 @@ import style from "./Navbar.module.css";
 import HomeIcon from '@mui/icons-material/Home'; 
 function Navbar() {
     return (
-        <nav style={{ display: "flex", gap: "20px", padding: "10px", backgroundColor: "#f0f0f0" }}>
-            <Link to="/" style={{ textDecoration: "none", color: "blue" }}><HomeIcon/></Link>
-            <Link to="/get-competitor" style={{ textDecoration: "none", color: "blue" }}>Get Competitor</Link>
-            <Link to="/about" style={{ textDecoration: "none", color: "blue"}}>About</Link>
-            <Link to="/get-competition" style={{ textDecoration: "none", color: "blue"}}>Get Competition</Link>
+        <nav>
+            <Link to="/" style={{ color: "white", textDecoration: "none", padding: "1vh" }}><a><HomeIcon/></a></Link>
+            <Link to="/get-placements" style={{color: "white", textDecoration: "none", padding: "1vh"}}><a>Get Placements</a></Link>
+            <Link to="/get-competition" style={{color: "white", textDecoration: "none", padding: "1vh"}}><a>Get Competition</a></Link>
+            <Link to="/about" style={{ color: "white", textDecoration: "none", padding: "1vh"}}><a>About</a></Link>
+            <footer className={style.footer} style={{marginTop:"auto", marginBottom:"1vh"}}>
+                <p>2025 &copy; All rights reserved</p>
+            </footer>
         </nav>
     );
 }
-export default Navbar;
+export default Navbar; 

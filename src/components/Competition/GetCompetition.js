@@ -7,52 +7,87 @@ import { Select } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import ListCompetitions from "../ListCompetitions/ListCompetitions.js";
 import Button from "@mui/material/Button";
-
+import TextField from "@mui/material/TextField";
 function GetCompetition() {
-    const [stateCompetitions, setStateCompetitions] = useState([]);
-    const [stateCompetitor, setStateCompetitor] = useState(null);
+    let [stateCompetitions, setStateCompetitions] = useState([]);
+    let [stateCompetitor, setStateCompetitor] = useState([]);
     const [stateName, setStateName] = useState("");
-    const [open, setOpen] = useState(false);
-    
-    const fetchAllCompetitors = async () => {
-        let response = await axios.get("/api/competitor/").catch((error) => { alert("Kérem indítsa el a szervert!") });
-        setStateCompetitor(response.data);
-    }
-
+    let [statePlacements, setStatePlacements] = useState([]);
     const fetchAllCompetitions = async () => {
         let response = await axios.get("/api/competition/").catch((error) => { alert("Kérem indítsa el a szervert!") });
-        setStateCompetitions(response.data);
+        const competitions = await response.data;
+        setStateCompetitions(competitions);
+        console.log(stateCompetitions);
     }
-    useEffect(() => {
-        fetchAllCompetitions();
-    }, [])
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const fetchAllCompetitors = async () => {
+        let response = await axios.get("/api/competitor/").catch((error) => { alert("Kérem indítsa el a szervert!") });
+        const competitors = await response.data;
+        setStateCompetitor(competitors);
+        
+        
+    }
+    const fetchAllPlacements = async () => {
+    stateCompetitor.map(async (competitor) => {
+      let response = await axios.get(`/api/placements/${competitor.id}`).catch((error) => { alert("Kérem indítsa el a szervert!") });
+      const placement = await response.data;
+      setStatePlacements((prevPlacements) => [...prevPlacements, placement]);
+    });
+    }
     
+    const clickQuery = async () => {
+      try{
+        await fetchAllCompetitions();
+        await fetchAllCompetitors();
+        await fetchAllPlacements();
+      }
+      catch(error){
+        alert("Nem sikerült a versenyzők lekérdezése!");
+      }
+    }
     
   
-  
+    
   return (
     <div>
-      <div style={{flex: 1, display: "flex", flexDirection: "column", alignItems: "center",  gap: "10px"}}>
-      <ListCompetitions competitions={stateCompetitions} />
-      <div style={{alignSelf: "center", marginBottom: "20px"}}>
-        <Button variant="contained" onClick={handleOpen}>Open Query Modal</Button>
+      <div style={({ display: "flex", justifyContent: "center", marginTop: "20px" })}>
+        <TextField 
+          label="Verseny neve" 
+          id="filled-basic" 
+          variant="filled" 
+          onChange={(event) => setStateName(event.target.value)} 
+          InputLabelProps={{
+            style: { color: "white" }
+          }}
+          InputProps={{
+            style: { color: "white" }
+          }}
+          sx={{
+            "& .MuiFilledInput-root": {
+              "&:before": {
+                borderBottom: "2px solid black"
+              },
+              "&:hover:before": {
+                borderBottom: "2px solid black"
+              },
+              "&.Mui-focused:before": {
+                borderBottom: "2px solid black"
+              },
+              "&:after": {
+                borderBottom: "2px solid black"
+              }
+            }
+          }}
+        />
       </div>
-      <Modal open={open} onClose={handleClose}>
-      <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'white', boxShadow: 24, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 5}}>
-        <Select>
-          {stateCompetitions &&
-            stateCompetitions.map((competition) => (
-              <MenuItem key={competition.id} value={competition.id}>
-                {competition.name}
-              </MenuItem>
-            ))}
-        </Select>
-        <Button variant="contained" color="error" onClick={handleClose}>Close</Button>
-        <Button variant="contained" onClick={handleClose}>Submit</Button>
-      </Box>
-      </Modal>
+      <ListCompetitions competitions={stateCompetitions.filter((competition) => competition.name.toLowerCase().includes(stateName.toLowerCase()))}/>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+        <Button 
+          variant="contained" 
+          onClick={async () => { await clickQuery() }} 
+          style={{ backgroundColor: "black", color: "white" }}
+        >
+          Keresés
+        </Button>
       </div>
     </div>
   );

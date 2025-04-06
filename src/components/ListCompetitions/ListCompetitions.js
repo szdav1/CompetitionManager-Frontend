@@ -8,9 +8,9 @@ import Paper from '@mui/material/Paper';
 
 function ListCompetitions({ competitions }) {
   return (
-    <div>
-      <TableContainer sx={{ borderRadius: 5, bgcolor: "whitesmoke", boxShadow: 5 }}>
-        <Table sx={{ minWidth: "100%", bgcolor: "whitesmoke", borderRadius: 5 }} aria-label="simple table">
+    <div style={{ display: "flex", justifyContent: "center", padding: "1rem" }}>
+      <TableContainer sx={{ width: "50%", borderRadius: 5, bgcolor: "whitesmoke", boxShadow: 5 }}>
+        <Table sx={{ bgcolor: "whitesmoke", borderRadius: 5 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ borderRadius: 5 }}>
               <TableCell align="center" sx={{ color: "black", border: 0.5, borderColor: "#282c34", fontWeight: "bold" }}>Name</TableCell>
