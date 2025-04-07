@@ -8,6 +8,7 @@ import { MenuItem } from "@mui/material";
 import ListCompetitions from "../ListCompetitions/ListCompetitions.js";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { set } from "react-hook-form";
 function GetCompetition() {
     let [stateCompetitions, setStateCompetitions] = useState([]);
     let [stateCompetitor, setStateCompetitor] = useState([]);
@@ -17,7 +18,6 @@ function GetCompetition() {
         let response = await axios.get("/api/competition/").catch((error) => { alert("Kérem indítsa el a szervert!") });
         const competitions = await response.data;
         setStateCompetitions(competitions);
-        console.log(stateCompetitions);
     }
     const fetchAllCompetitors = async () => {
         let response = await axios.get("/api/competitor/").catch((error) => { alert("Kérem indítsa el a szervert!") });
@@ -26,13 +26,21 @@ function GetCompetition() {
         
         
     }
+
     const fetchAllPlacements = async () => {
-    stateCompetitor.map(async (competitor) => {
-      let response = await axios.get(`/api/placements/${competitor.id}`).catch((error) => { alert("Kérem indítsa el a szervert!") });
-      const placement = await response.data;
-      setStatePlacements((prevPlacements) => [...prevPlacements, placement]);
-    });
-    }
+      try {
+        const placementPromises = stateCompetitor.map(async (competitor) => {
+          const response = await axios.get(`/api/placements/${competitor.id}`);
+          return response.data;
+        });
+    
+        const allPlacements = await Promise.all(placementPromises);
+        const flattened = allPlacements.flat();
+        setStatePlacements(flattened);
+      } catch (error) {
+        alert("Nem sikerült a helyezések lekérdezése!");
+      }
+    };
     
     const clickQuery = async () => {
       try{
@@ -44,12 +52,16 @@ function GetCompetition() {
         alert("Nem sikerült a versenyzők lekérdezése!");
       }
     }
-    
+    useEffect(() => {
+      if (stateCompetitor.length > 0) {
+        fetchAllPlacements();
+      }
+    }, [stateCompetitor]);
   
     
   return (
     <div>
-      <div style={({ display: "flex", justifyContent: "center", marginTop: "20px" })}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <TextField 
           label="Verseny neve" 
           id="filled-basic" 
@@ -79,7 +91,11 @@ function GetCompetition() {
           }}
         />
       </div>
-      <ListCompetitions competitions={stateCompetitions.filter((competition) => competition.name.toLowerCase().includes(stateName.toLowerCase()))}/>
+      <ListCompetitions 
+        placement={statePlacements.filter((placement) => 
+          placement.competitionName.toLowerCase().includes(stateName.toLowerCase())
+        )} 
+      />
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <Button 
           variant="contained" 
