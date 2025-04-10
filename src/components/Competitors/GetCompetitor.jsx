@@ -9,7 +9,8 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import { set } from "react-hook-form";
 import Alert from "@mui/material/Alert"
-import ListPlacements from "../ListPlacements/ListPlacements";
+import ListPlacements from "../ListPlacements/ListPlacements.jsx";
+import Toast from "react-bootstrap/Toast";
 
 function GetCompetitor(){
     
@@ -42,6 +43,11 @@ function GetCompetitor(){
         })
     }
     const getCompetitorPlacementsById = async () =>{
+        if (!stateCompetitor) {
+            setStatePlacements([]);
+            alert("Competitor not found!");
+            return;
+        }
         let response = await axios.get(`/api/placements/${stateCompetitor.id}`).catch((error) => {alert("Kérem indítsa el a szervert!")});
         statePlacements = response.data;
         setStatePlacements(statePlacements);
@@ -112,6 +118,7 @@ function GetCompetitor(){
                         >
                             Close
                         </Button>
+                        
                         
                     </Box>
                 </Modal>

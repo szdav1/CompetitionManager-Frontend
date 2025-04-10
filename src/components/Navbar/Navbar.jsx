@@ -9,9 +9,7 @@ function Navbar() {
             <Link to="/get-placements" style={{color: "white", textDecoration: "none", padding: "1vh"}}><a>Get Placements</a></Link>
             <Link to="/get-competition" style={{color: "white", textDecoration: "none", padding: "1vh"}}><a>Get Competition</a></Link>
             <Link to="/about" style={{ color: "white", textDecoration: "none", padding: "1vh"}}><a>About</a></Link>
-            <footer className={style.footer} style={{marginTop:"auto", marginBottom:"1vh"}}>
-                <p>2025 &copy; All rights reserved</p>
-            </footer>
+            
         </nav>
     );
 }

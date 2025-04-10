@@ -5,10 +5,11 @@ import { Box, Modal } from "@mui/material";
 import style from "./GetCompetition.module.css";
 import { Select } from "@mui/material";
 import { MenuItem } from "@mui/material";
-import ListCompetitions from "../ListCompetitions/ListCompetitions.js";
+import ListCompetitions from "../ListCompetitions/ListCompetitions.jsx";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { set } from "react-hook-form";
+import Toast from "react-bootstrap/Toast";
 function GetCompetition() {
     let [stateCompetitions, setStateCompetitions] = useState([]);
     let [stateCompetitor, setStateCompetitor] = useState([]);
@@ -23,8 +24,6 @@ function GetCompetition() {
         let response = await axios.get("/api/competitor/").catch((error) => { alert("Kérem indítsa el a szervert!") });
         const competitors = await response.data;
         setStateCompetitor(competitors);
-        
-        
     }
 
     const fetchAllPlacements = async () => {
@@ -38,7 +37,7 @@ function GetCompetition() {
         const flattened = allPlacements.flat();
         setStatePlacements(flattened);
       } catch (error) {
-        alert("Nem sikerült a helyezések lekérdezése!");
+        console.log(error.message);
       }
     };
     
@@ -49,7 +48,7 @@ function GetCompetition() {
         await fetchAllPlacements();
       }
       catch(error){
-        alert("Nem sikerült a versenyzők lekérdezése!");
+        console.log(error.message);
       }
     }
     useEffect(() => {
@@ -102,8 +101,22 @@ function GetCompetition() {
           onClick={async () => { await clickQuery() }} 
           style={{ backgroundColor: "black", color: "white" }}
         >
-          Keresés
+          Search
         </Button>
+            {stateCompetitions  === null && (
+              <Toast 
+                  style={{ position: 'absolute', bottom: 20, right: 20 }}
+                  onClose={() => setStateCompetitor({})}
+                  show={true}
+                  delay={3000}
+                  autohide
+              >
+                  <Toast.Header>
+                      <strong className="me-auto">Notification</strong>
+                  </Toast.Header>
+                  <Toast.Body>No competition found!</Toast.Body>
+              </Toast>
+              )}
       </div>
     </div>
   );
